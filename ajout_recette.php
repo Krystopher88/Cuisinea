@@ -72,9 +72,6 @@ if (isset($_POST['saveRecipe'])) {
   </div>
 <?php } ?>
 
-<?php
-  var_dump($_SESSION);
-?>
 <form method="POST" enctype="multipart/form-data">
   <div class="mb-3">
     <label for="title" class="form-label">Titre</label>

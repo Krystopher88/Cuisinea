@@ -24,9 +24,6 @@ $currentPage = basename($_SERVER['SCRIPT_NAME']);
 
 <body>
 
-
-
-
   <div class="container">
 
     <!-- HeaderStart -->
@@ -38,21 +35,27 @@ $currentPage = basename($_SERVER['SCRIPT_NAME']);
       </div>
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 nav-pills">
-        <?php foreach ($mainMenu as $key => $value) { ?>
-          <li><a href="<?= $key ?>" class="nav-link <?php if ($currentPage === $key) {
-                                                    echo 'active';
-                                                  } ?>"><?= $value ?></a></li>
-        <?php } ?>
-      </ul>
+    <?php foreach ($mainMenu as $key => $value) { ?>
+        <?php
+        // Vérifie si l'utilisateur est connecté pour afficher le lien "Gestion des recettes"
+        if ($key === 'gestions_recette.php' && !isset($_SESSION['user'])) {
+            continue; // Passe au lien suivant
+        }
+        ?>
+        <li><a href="<?= $key ?>" class="nav-link <?php if ($currentPage === $key) {
+            echo 'active';
+        } ?>"><?= $value ?></a></li>
+    <?php } ?>
+</ul>
 
       <div class="col-md-3 text-end">
         <?php
         if (!isset($_SESSION['user'])) { ?>
           <a href="login.php" type="button" class="btn btn-outline-primary me-2">Se connecter</a>
-          <a href="inscription.php" type="button" class="btn btn-outline-primary me-2">Insccription</a>
+          <a href="inscription.php" type="button" class="btn btn-outline-primary me-2">Inscription</a>
         <?php } else { ?>
-        <a href="logout.php" type="button" class="btn btn-primary">Se deconnecter</a>
-      <?php } ?>
+          <a href="logout.php" type="button" class="btn btn-primary">Se deconnecter</a>
+        <?php } ?>
       </div>
     </header>
     <!-- HeaderEnd -->
