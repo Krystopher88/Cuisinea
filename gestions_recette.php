@@ -5,11 +5,29 @@ require_once('lib/category.php');
 if (!isset($_SESSION['user'])) {
   header('location: login.php');
 }
-$recipes = getRecipes($pdo)
+$recipes = getRecipes($pdo);
+var_dump($users);
 ?>
 
 <h1>Gestions des recettes</h1>
-<a href="ajout_recette.php" class="btn btn-primary">Créer une nouvelle recette</a>
+
+<?php if (isset($_SESSION['success_message'])) { ?>
+    <div class="alert alert-success">
+        <?= $_SESSION['success_message'] ?>
+    </div>
+    <?php unset($_SESSION['success_message']); ?>
+<?php }
+?>
+
+<?php if (isset($_SESSION['error_message'])) { ?>
+    <div class="alert alert-danger">
+        <?= $_SESSION['error_message'] ?>
+    </div>
+    <?php unset($_SESSION['error_message']); ?>
+<?php }
+?>
+
+<a href="ajout_recette.php" class="btn btn-primary m-4">Créer une nouvelle recette</a>
 <form>
   <table class="table">
     <thead>
@@ -26,12 +44,10 @@ $recipes = getRecipes($pdo)
           <td><?= htmlspecialchars($recipe['title']); ?></td>
           <td><?= htmlspecialchars($recipe['description']); ?></td>
           <td>
-            <button class="btn btn-warning btn-edity"'>
-              Modifier
-            </button>
+            <a href="modifier_recette.php?id=<?= $recipe['id']; ?>" class="btn btn-warning btn-edity">Modifier</a>
           </td>
           <td>
-            <a href="lib/supprimer_recette.php?id=<?= $recipe['id']; ?>" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette recette ?');">Supprimer</a>
+            <a href="lib/deleteRecipe.php?id=<?= $recipe['id']; ?>" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cette recette ?');">Supprimer</a>
           </td>
         </tr>
       <?php } ?>

@@ -1,12 +1,14 @@
 <?php
+require_once('lib/session.php');
 require_once('lib/config.php');
 require_once('lib/recipe.php');
 require_once('lib/tools.php');
 require_once('lib/pdo.php');
-require_once('lib/session.php');
+require_once('lib/user.php');
 
+$users = getAllUsers($pdo);
 $currentPage = basename($_SERVER['SCRIPT_NAME']);
-
+var_dump($users);
 ?>
 
 <!DOCTYPE html>
@@ -35,18 +37,17 @@ $currentPage = basename($_SERVER['SCRIPT_NAME']);
       </div>
 
       <ul class="nav col-12 col-md-auto mb-2 justify-content-center mb-md-0 nav-pills">
-    <?php foreach ($mainMenu as $key => $value) { ?>
-        <?php
-        // Vérifie si l'utilisateur est connecté pour afficher le lien "Gestion des recettes"
-        if ($key === 'gestions_recette.php' && !isset($_SESSION['user'])) {
-            continue; // Passe au lien suivant
-        }
-        ?>
-        <li><a href="<?= $key ?>" class="nav-link <?php if ($currentPage === $key) {
-            echo 'active';
-        } ?>"><?= $value ?></a></li>
-    <?php } ?>
-</ul>
+        <?php foreach ($mainMenu as $key => $value) { ?>
+          <?php
+          if (($key === 'gestions_recette.php' || $key === 'administration.php') && !isset($_SESSION['user'])) {
+            continue;
+          }
+          ?>
+          <li><a href="<?= $key ?>" class="nav-link <?php if ($currentPage === $key) {
+                echo 'active';
+              } ?>"><?= $value ?></a></li>
+        <?php } ?>
+      </ul>
 
       <div class="col-md-3 text-end">
         <?php

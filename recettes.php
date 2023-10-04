@@ -1,7 +1,7 @@
 <?php
 require_once('templates/header.php');
 
-$recipes = getRecipes($pdo)
+$recipes = getRecipes($pdo);
 ?>
 
 <!-- MainStart -->
